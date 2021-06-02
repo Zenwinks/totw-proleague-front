@@ -4,8 +4,8 @@ import axios from "axios";
 export default createStore({
   state: {
     status: '',
-    token: JSON.parse(localStorage.getItem('data')).token || '',
-    user: JSON.parse(localStorage.getItem('data')).user || {}
+    token: localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')).token : '',
+    user: localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')).user : {}
   },
   getters: {
     isLoggedIn: state => !!state.token,

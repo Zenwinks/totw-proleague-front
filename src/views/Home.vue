@@ -5,7 +5,7 @@
       <h1>TOTW Manager</h1>
       <div class="icons">
         <div class="profile" @click="profile">
-          <span>{{ currentUser.name }}</span>&nbsp;&nbsp;
+          <span v-if="currentUser">{{ currentUser.name }}</span>&nbsp;&nbsp;
           <i class="fas fa-user fa-lg"/>
         </div>
         <i class="fas fa-power-off fa-lg" @click="logout"/>
@@ -23,10 +23,11 @@
           Ajouter une nouvelle TOTW
         </div>
       </div>
+      <hr>
       <div class="content">
-        <player-stats v-if="currentMenu === 'stats'"></player-stats>
-        <totw-list v-else-if="currentMenu === 'list'"></totw-list>
-        <add-totw v-else-if="currentMenu === 'add'"></add-totw>
+        <player-stats v-if="currentMenu === 'stats'"/>
+        <totw-list v-else-if="currentMenu === 'list'"/>
+        <add-totw v-else-if="currentMenu === 'add'"/>
       </div>
     </div>
   </div>
@@ -131,6 +132,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-bottom: 1%;
 
       .menu {
         display: flex;
@@ -157,6 +159,17 @@ export default {
         background-color: #040586;
         color: gold;
       }
+    }
+
+    hr {
+      width: 40%;
+      border: 1px solid #040586;
+    }
+
+    .content {
+      width: 100%;
+      height: 77%;
+      margin-top: 2%;
     }
   }
 }

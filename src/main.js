@@ -9,7 +9,7 @@ app.use(store)
 app.use(router)
 app.mount('#app')
 app.config.globalProperties.$http = axios
-const token = JSON.parse(localStorage.getItem('data')).token
+const token = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')).token : ''
 if (token) {
   app.config.globalProperties.$http.defaults.headers.common['Authorization'] = token
 }
