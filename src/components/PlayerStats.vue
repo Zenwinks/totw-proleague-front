@@ -33,16 +33,40 @@
           <i class="fas fa-sort-down" v-else-if="currentSort === 'nb_titu' && currentSortDir === 'desc'"/>
           <i class="fas fa-sort" v-else/>
         </th>
+        <th @click="sort('note_titu')">
+          Prochaine note titulaire &nbsp;
+          <i class="fas fa-sort-up" v-if="currentSort === 'note_titu' && currentSortDir === 'asc'"/>
+          <i class="fas fa-sort-down" v-else-if="currentSort === 'note_titu' && currentSortDir === 'desc'"/>
+          <i class="fas fa-sort" v-else/>
+        </th>
         <th @click="sort('nb_sub')">
           Apparitions en MH &nbsp;
           <i class="fas fa-sort-up" v-if="currentSort === 'nb_sub' && currentSortDir === 'asc'"/>
           <i class="fas fa-sort-down" v-else-if="currentSort === 'nb_sub' && currentSortDir === 'desc'"/>
           <i class="fas fa-sort" v-else/>
         </th>
+        <th @click="sort('note_sub')">
+          Prochaine note MH &nbsp;
+          <i class="fas fa-sort-up" v-if="currentSort === 'note_sub' && currentSortDir === 'asc'"/>
+          <i class="fas fa-sort-down" v-else-if="currentSort === 'note_sub' && currentSortDir === 'desc'"/>
+          <i class="fas fa-sort" v-else/>
+        </th>
         <th @click="sort('nb_total')">
           Apparitions totales &nbsp;
           <i class="fas fa-sort-up" v-if="currentSort === 'nb_total' && currentSortDir === 'asc'"/>
           <i class="fas fa-sort-down" v-else-if="currentSort === 'nb_total' && currentSortDir === 'desc'"/>
+          <i class="fas fa-sort" v-else/>
+        </th>
+        <th @click="sort('note_tots_titu')">
+          Note TOTS titulaire &nbsp;
+          <i class="fas fa-sort-up" v-if="currentSort === 'note_tots_titu' && currentSortDir === 'asc'"/>
+          <i class="fas fa-sort-down" v-else-if="currentSort === 'note_tots_titu' && currentSortDir === 'desc'"/>
+          <i class="fas fa-sort" v-else/>
+        </th>
+        <th @click="sort('note_tots_sub')">
+          Note TOTS MH &nbsp;
+          <i class="fas fa-sort-up" v-if="currentSort === 'note_tots_sub' && currentSortDir === 'asc'"/>
+          <i class="fas fa-sort-down" v-else-if="currentSort === 'note_tots_sub' && currentSortDir === 'desc'"/>
           <i class="fas fa-sort" v-else/>
         </th>
       </tr>
@@ -54,8 +78,12 @@
         <td class="team">{{ player.team }}</td>
         <td class="country">{{ player.country }}</td>
         <td class="titu">{{ player.nb_titu }}</td>
+        <td class="note-titu">{{ calcNextNote(true, player.nb_titu, player.nb_sub, player.nb_potw) }}</td>
         <td class="sub">{{ player.nb_sub }}</td>
+        <td class="note-sub">{{ calcNextNote(false, player.nb_titu, player.nb_sub, player.nb_potw) }}</td>
         <td class="total">{{ player.nb_total }}</td>
+        <td class="note-tots-titu">{{ calcTotsNote(true, player.nb_titu, player.nb_sub, player.nb_potw) }}</td>
+        <td class="note-tots-sub">{{ calcTotsNote(false, player.nb_titu, player.nb_sub, player.nb_potw) }}</td>
       </tr>
       </tbody>
     </table>
@@ -82,7 +110,7 @@ export default {
       players: [],
       currentSort: 'name',
       currentSortDir: 'asc',
-      pageSize: 11,
+      pageSize: 22,
       currentPage: 1,
       maxPage: 1
     }
@@ -93,8 +121,21 @@ export default {
       return sortedPlayers.sort((a, b) => {
         let modifier = 1;
         if (this.currentSortDir === 'desc') modifier = -1;
-        if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
-        if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+        if (typeof a[this.currentSort] !== 'string') {
+          if (a[this.currentSort] < b[this.currentSort]) {
+            return -1 * modifier
+          }
+          if (a[this.currentSort] > b[this.currentSort]) {
+            return modifier
+          }
+        } else {
+          if (a[this.currentSort].toUpperCase() < b[this.currentSort].toUpperCase()) {
+            return -1 * modifier
+          }
+          if (a[this.currentSort].toUpperCase() > b[this.currentSort].toUpperCase()) {
+            return modifier
+          }
+        }
         return 0;
       }).filter((row, index) => {
         let start = (this.currentPage - 1) * this.pageSize;
@@ -108,19 +149,22 @@ export default {
   },
   methods: {
     updatePlayersData () {
-      axios.get('http://localhost:3000/players')
+      axios.get('http://localhost:3000/playersWithPositions')
           .then(response => {
             this.players = response.data
             this.maxPage = Math.ceil(this.players.length / this.pageSize)
           })
           .catch(error => {
-            createToast('Un erreur est survenue à la récupération des joueurs', {
-              type: 'danger',
-              timeout: 3000,
-              position: 'bottom-left',
-              showIcon: true
-            })
-            console.log(error)
+            if (error.response.status === 401) {
+              this.$logout()
+            } else {
+              createToast('Un erreur est survenue à la récupération des joueurs', {
+                type: 'danger',
+                timeout: 3000,
+                position: 'bottom-left',
+                showIcon: true
+              })
+            }
           })
     },
     sort (s) {
@@ -134,6 +178,20 @@ export default {
     },
     prevPage () {
       if (this.currentPage > 1) this.currentPage--;
+    },
+    calcNextNote (isTitu, nbApparitionsTitu, nbApparitionsSub, nbApparitionsPotw) {
+      if (isTitu) {
+        return 90 + parseInt(nbApparitionsTitu) + parseInt(nbApparitionsPotw)
+      } else {
+        return Math.floor(85 + (parseInt(nbApparitionsTitu) + parseInt(nbApparitionsPotw)) + (parseInt(nbApparitionsSub) / 2))
+      }
+    },
+    calcTotsNote (isTitu, nbApparitionsTitu, nbApparitionsSub, nbApparitionsPotw) {
+      if (isTitu) {
+        return 90 + parseInt(nbApparitionsTitu) + parseInt(nbApparitionsPotw) + 2
+      } else {
+        return Math.floor(85 + (parseInt(nbApparitionsTitu) + parseInt(nbApparitionsPotw)) + (parseInt(nbApparitionsSub) / 2) + 2)
+      }
     }
   }
 }
@@ -149,12 +207,13 @@ export default {
   overflow-y: auto;
 
   table {
-    width: 70%;
-    height: 80%;
+    width: 90%;
+    height: 85%;
     border-collapse: collapse;
     text-align: center;
 
     tr {
+      color: #040586;
 
       th {
         border: 1px solid #040586;
@@ -166,11 +225,15 @@ export default {
 
       td {
         border: 1px solid #040586;
-        color: #040586;
       }
 
       .name, .total {
         font-weight: bold;
+      }
+
+      &:hover {
+        background-color: #040586;
+        color: gold;
       }
     }
   }

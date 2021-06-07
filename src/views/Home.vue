@@ -27,7 +27,7 @@
       <div class="content">
         <player-stats v-if="currentMenu === 'stats'"/>
         <totw-list v-else-if="currentMenu === 'list'"/>
-        <add-totw v-else-if="currentMenu === 'add'"/>
+        <add-totw v-else-if="currentMenu === 'add'" @goToStats="currentMenu = 'stats'"/>
       </div>
     </div>
   </div>
@@ -64,10 +64,7 @@ export default {
   },
   methods: {
     logout: function () {
-      this.$store.dispatch('logout')
-          .then(() => {
-            this.$router.push('/login')
-          })
+      this.$logout()
     },
     profile () {
       this.$router.push('/profile')
