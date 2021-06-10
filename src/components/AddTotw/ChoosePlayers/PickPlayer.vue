@@ -54,11 +54,10 @@ export default {
         id: ''
       }
     },
-    updatePlayerPicked (event) {
-      this.playerSelected = event.player
-      this.positionSelected = event.position
+    updatePlayerPicked (playerPicked) {
+      this.playerSelected = playerPicked
+      this.positionSelected = playerPicked.position
       let player = this.playerSelected
-      player.position = this.positionSelected
       if (this.isTitu) {
         player.isPotw = false
         this.$emit('updateTitus', player)

@@ -1,13 +1,13 @@
 <template>
   <div class="wrapper">
     <div class="title">
-      <h3>{{ title }}</h3>
+      <h3><span v-if="step > 1">Récap' </span>{{ title }} {{ totwCount }}</h3>
     </div>
     <div class="content">
       <!--      <choose-forma v-if="step === 1" :compoId="compoId" :compos="compos" @changeCompo="compoId = $event"/>-->
       <choose-players v-if="step === 1" :titus="titus" :subs="subs"
                       @updateTitus="titus = $event" @updateSubs="subs = $event"/>
-      <recap-totw v-else/>
+      <recap-totw v-else :titus="titus" :subs="subs"/>
 
       <div class="buttons">
         <button v-if="step > 1" class="page-btn previous" @click="previous()"><i class="fas fa-step-backward"/>&nbsp;Étape précédente</button>
@@ -33,6 +33,7 @@ export default {
   data () {
     return {
       title: 'TOTW',
+      totwCount: 0,
       step: 1,
       // compos: [],
       // compoId: '',
@@ -52,7 +53,7 @@ export default {
   methods: {
     getTotwCount () {
       axios.get('http://localhost:3000/totw-count')
-          .then(response => this.title += ' ' + response.data)
+          .then(response => this.totwCount = parseInt(response.data))
           .catch(error => {
             if (error.response.status === 401) {
               this.$logout()
@@ -71,7 +72,7 @@ export default {
       axios.post('http://localhost:3000/add-totw', {
         titus: this.titus,
         subs: this.subs,
-        totwCount: parseInt(this.title.substring(this.title.length - 1))
+        totwCount: this.totwCount
       })
           .then(() => {
             createToast('TOTW créée avec succès', {

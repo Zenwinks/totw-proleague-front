@@ -3,70 +3,83 @@
     <table>
       <thead>
       <tr>
-        <th @click="sort('name')">
-          Nom du joueur &nbsp;
+        <th colspan="4" class="no-border-top no-border-left">Infos joueurs</th>
+        <th colspan="3" class="no-border-top">Titulaire</th>
+        <th colspan="2" class="no-border-top">Sub</th>
+        <th colspan="1" class="no-border-top">Total</th>
+        <th colspan="2" class="no-border-top no-border-right th-tots">TOTS</th>
+      </tr>
+      <tr>
+        <th @click="sort('name')" class="no-border-left no-border-bottom">
+          Nom &nbsp;
           <i class="fas fa-sort-up" v-if="currentSort === 'name' && currentSortDir === 'asc'"/>
           <i class="fas fa-sort-down" v-else-if="currentSort === 'name' && currentSortDir === 'desc'"/>
           <i class="fas fa-sort" v-else/>
         </th>
-        <th>
+        <th class="no-border-bottom">
           Postes
           <!--          <i class="fas fa-sort-up" v-if="currentSort === 'position' && currentSortDir === 'asc'"/>-->
           <!--          <i class="fas fa-sort-down" v-else-if="currentSort === 'position' && currentSortDir === 'desc'"/>-->
           <!--          <i class="fas fa-sort" v-else/>-->
         </th>
-        <th @click="sort('team')">
+        <th @click="sort('team')" class="no-border-bottom">
           Équipe &nbsp;
           <i class="fas fa-sort-up" v-if="currentSort === 'team' && currentSortDir === 'asc'"/>
           <i class="fas fa-sort-down" v-else-if="currentSort === 'team' && currentSortDir === 'desc'"/>
           <i class="fas fa-sort" v-else/>
         </th>
-        <th @click="sort('country')">
+        <th @click="sort('country')" class="no-border-bottom">
           Nationalité &nbsp;
           <i class="fas fa-sort-up" v-if="currentSort === 'country' && currentSortDir === 'asc'"/>
           <i class="fas fa-sort-down" v-else-if="currentSort === 'country' && currentSortDir === 'desc'"/>
           <i class="fas fa-sort" v-else/>
         </th>
-        <th @click="sort('nb_titu')">
-          Apparitions dans le XI &nbsp;
+        <th @click="sort('nb_titu')" class="no-border-bottom">
+          Apparitions &nbsp;
           <i class="fas fa-sort-up" v-if="currentSort === 'nb_titu' && currentSortDir === 'asc'"/>
           <i class="fas fa-sort-down" v-else-if="currentSort === 'nb_titu' && currentSortDir === 'desc'"/>
           <i class="fas fa-sort" v-else/>
         </th>
-        <th @click="sort('note_titu')">
-          Prochaine note titulaire &nbsp;
-          <i class="fas fa-sort-up" v-if="currentSort === 'note_titu' && currentSortDir === 'asc'"/>
-          <i class="fas fa-sort-down" v-else-if="currentSort === 'note_titu' && currentSortDir === 'desc'"/>
+        <th @click="sort('nb_potw')" class="no-border-bottom">
+          POTW &nbsp;
+          <i class="fas fa-sort-up" v-if="currentSort === 'nb_potw' && currentSortDir === 'asc'"/>
+          <i class="fas fa-sort-down" v-else-if="currentSort === 'nb_potw' && currentSortDir === 'desc'"/>
           <i class="fas fa-sort" v-else/>
         </th>
-        <th @click="sort('nb_sub')">
-          Apparitions en MH &nbsp;
+        <th @click="sort('noteTitu')" class="no-border-bottom">
+          Prochaine note &nbsp;
+          <i class="fas fa-sort-up" v-if="currentSort === 'noteTitu' && currentSortDir === 'asc'"/>
+          <i class="fas fa-sort-down" v-else-if="currentSort === 'noteTitu' && currentSortDir === 'desc'"/>
+          <i class="fas fa-sort" v-else/>
+        </th>
+        <th @click="sort('nb_sub')" class="no-border-bottom">
+          Apparitions &nbsp;
           <i class="fas fa-sort-up" v-if="currentSort === 'nb_sub' && currentSortDir === 'asc'"/>
           <i class="fas fa-sort-down" v-else-if="currentSort === 'nb_sub' && currentSortDir === 'desc'"/>
           <i class="fas fa-sort" v-else/>
         </th>
-        <th @click="sort('note_sub')">
-          Prochaine note MH &nbsp;
-          <i class="fas fa-sort-up" v-if="currentSort === 'note_sub' && currentSortDir === 'asc'"/>
-          <i class="fas fa-sort-down" v-else-if="currentSort === 'note_sub' && currentSortDir === 'desc'"/>
+        <th @click="sort('noteSub')" class="no-border-bottom">
+          Prochaine note &nbsp;
+          <i class="fas fa-sort-up" v-if="currentSort === 'noteSub' && currentSortDir === 'asc'"/>
+          <i class="fas fa-sort-down" v-else-if="currentSort === 'noteSub' && currentSortDir === 'desc'"/>
           <i class="fas fa-sort" v-else/>
         </th>
-        <th @click="sort('nb_total')">
-          Apparitions totales &nbsp;
+        <th @click="sort('nb_total')" class="no-border-bottom">
+          Apparitions &nbsp;
           <i class="fas fa-sort-up" v-if="currentSort === 'nb_total' && currentSortDir === 'asc'"/>
           <i class="fas fa-sort-down" v-else-if="currentSort === 'nb_total' && currentSortDir === 'desc'"/>
           <i class="fas fa-sort" v-else/>
         </th>
-        <th @click="sort('note_tots_titu')">
-          Note TOTS titulaire &nbsp;
-          <i class="fas fa-sort-up" v-if="currentSort === 'note_tots_titu' && currentSortDir === 'asc'"/>
-          <i class="fas fa-sort-down" v-else-if="currentSort === 'note_tots_titu' && currentSortDir === 'desc'"/>
+        <th @click="sort('noteTotsTitu')" class="no-border-bottom th-tots">
+          Note titulaire &nbsp;
+          <i class="fas fa-sort-up" v-if="currentSort === 'noteTotsTitu' && currentSortDir === 'asc'"/>
+          <i class="fas fa-sort-down" v-else-if="currentSort === 'noteTotsTitu' && currentSortDir === 'desc'"/>
           <i class="fas fa-sort" v-else/>
         </th>
-        <th @click="sort('note_tots_sub')">
-          Note TOTS MH &nbsp;
-          <i class="fas fa-sort-up" v-if="currentSort === 'note_tots_sub' && currentSortDir === 'asc'"/>
-          <i class="fas fa-sort-down" v-else-if="currentSort === 'note_tots_sub' && currentSortDir === 'desc'"/>
+        <th @click="sort('noteTotsSub')" class="no-border-bottom no-border-right th-tots">
+          Note MH &nbsp;
+          <i class="fas fa-sort-up" v-if="currentSort === 'noteTotsSub' && currentSortDir === 'asc'"/>
+          <i class="fas fa-sort-down" v-else-if="currentSort === 'noteTotsSub' && currentSortDir === 'desc'"/>
           <i class="fas fa-sort" v-else/>
         </th>
       </tr>
@@ -78,19 +91,22 @@
         <td class="team">{{ player.team }}</td>
         <td class="country">{{ player.country }}</td>
         <td class="titu">{{ player.nb_titu }}</td>
-        <td class="note-titu">{{ calcNextNote(true, player.nb_titu, player.nb_sub, player.nb_potw) }}</td>
+        <td class="potw">{{ player.nb_potw }}</td>
+        <td class="note-titu">{{ player.noteTitu }}</td>
         <td class="sub">{{ player.nb_sub }}</td>
-        <td class="note-sub">{{ calcNextNote(false, player.nb_titu, player.nb_sub, player.nb_potw) }}</td>
+        <td class="note-sub">{{ player.noteSub }}</td>
         <td class="total">{{ player.nb_total }}</td>
-        <td class="note-tots-titu">{{ calcTotsNote(true, player.nb_titu, player.nb_sub, player.nb_potw) }}</td>
-        <td class="note-tots-sub">{{ calcTotsNote(false, player.nb_titu, player.nb_sub, player.nb_potw) }}</td>
+        <td class="note-tots-titu td-tots">{{ player.noteTotsTitu }}</td>
+        <td class="note-tots-sub td-tots">{{ player.noteTotsSub }}</td>
       </tr>
       </tbody>
     </table>
     <div class="pagination">
+      <button class="fast-previous" @click="fastPrevPage"><i class="fas fa-fast-backward"/></button>
       <button class="previous" @click="prevPage"><i class="fas fa-step-backward"/>&nbsp;Précédent</button>
       <div class="page">{{ currentPage }}/{{ maxPage }}</div>
       <button class="next" @click="nextPage">Suivant &nbsp;<i class="fas fa-step-forward"></i></button>
+      <button class="fast-next" @click="fastNextPage"><i class="fas fa-fast-forward"/></button>
     </div>
   </div>
   <div class="wrapper" v-else>
@@ -110,7 +126,7 @@ export default {
       players: [],
       currentSort: 'name',
       currentSortDir: 'asc',
-      pageSize: 22,
+      pageSize: 18,
       currentPage: 1,
       maxPage: 1
     }
@@ -151,7 +167,13 @@ export default {
     updatePlayersData () {
       axios.get('http://localhost:3000/playersWithPositions')
           .then(response => {
-            this.players = response.data
+            response.data.forEach(elem => {
+              elem.noteTitu = this.calcNextNote(true, elem.nb_titu, elem.nb_sub, elem.nb_potw)
+              elem.noteSub = this.calcNextNote(false, elem.nb_titu, elem.nb_sub, elem.nb_potw)
+              elem.noteTotsTitu = this.calcTotsNote(true, elem.nb_titu, elem.nb_sub, elem.nb_potw)
+              elem.noteTotsSub = this.calcTotsNote(false, elem.nb_titu, elem.nb_sub, elem.nb_potw)
+              this.players.push(elem)
+            })
             this.maxPage = Math.ceil(this.players.length / this.pageSize)
           })
           .catch(error => {
@@ -179,6 +201,12 @@ export default {
     prevPage () {
       if (this.currentPage > 1) this.currentPage--;
     },
+    fastNextPage () {
+      this.currentPage = this.maxPage
+    },
+    fastPrevPage () {
+      this.currentPage = 1
+    },
     calcNextNote (isTitu, nbApparitionsTitu, nbApparitionsSub, nbApparitionsPotw) {
       if (isTitu) {
         return 90 + parseInt(nbApparitionsTitu) + parseInt(nbApparitionsPotw)
@@ -188,9 +216,9 @@ export default {
     },
     calcTotsNote (isTitu, nbApparitionsTitu, nbApparitionsSub, nbApparitionsPotw) {
       if (isTitu) {
-        return 90 + parseInt(nbApparitionsTitu) + parseInt(nbApparitionsPotw) + 2
+        return Math.floor(89 + parseInt(nbApparitionsTitu) + parseInt(nbApparitionsPotw) + (parseInt(nbApparitionsSub) / 2) + 2)
       } else {
-        return Math.floor(85 + (parseInt(nbApparitionsTitu) + parseInt(nbApparitionsPotw)) + (parseInt(nbApparitionsSub) / 2) + 2)
+        return Math.floor(84.5 + parseInt(nbApparitionsTitu) + parseInt(nbApparitionsPotw) + (parseInt(nbApparitionsSub) / 2) + 2)
       }
     }
   }
@@ -207,7 +235,7 @@ export default {
   overflow-y: auto;
 
   table {
-    width: 90%;
+    width: 98%;
     height: 85%;
     border-collapse: collapse;
     text-align: center;
@@ -216,11 +244,34 @@ export default {
       color: #040586;
 
       th {
-        border: 1px solid #040586;
+        border: 1px solid gold;
         background-color: #040586;
         color: gold;
         cursor: pointer;
-        height: 50px;
+        height: 40px;
+        user-select: none;
+      }
+
+      .th-tots {
+        background-color: gold;
+        color: #040586;
+        border-color: #040586;
+      }
+
+      .no-border-top {
+        border-top: 1px solid #040586;
+      }
+
+      .no-border-right {
+        border-right: 1px solid #040586;
+      }
+
+      .no-border-bottom {
+        border-bottom: 1px solid #040586;
+      }
+
+      .no-border-left {
+        border-left: 1px solid #040586;
       }
 
       td {
@@ -231,6 +282,25 @@ export default {
         font-weight: bold;
       }
 
+      .potw {
+        font-weight: bold;
+        color: red;
+      }
+
+      .td-tots {
+        background-color: #040586;
+        color: gold;
+        border-color: gold;
+      }
+
+      .note-tots-sub {
+        border-right: 1px solid #040586;
+      }
+
+      .note-tots-titu {
+        border-left: 1px solid #040586;
+      }
+
       &:hover {
         background-color: #040586;
         color: gold;
@@ -239,7 +309,7 @@ export default {
   }
 
   .pagination {
-    width: 20%;
+    width: 25%;
     height: 8%;
     margin-top: 1.5%;
     display: flex;
@@ -257,27 +327,38 @@ export default {
       color: gold;
     }
 
-    button {
+    .previous, .next, .fast-previous, .fast-next {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 40%;
       height: 100%;
-      border-radius: 10px 0 0 10px;
       cursor: pointer;
       color: #040586;
       font-size: large;
       font-weight: bold;
-      //box-shadow: 0 0 10px #040586;
       border: 1px solid #040586;
-
-      &:last-child {
-        border-radius: 0 10px 10px 0;
-      }
 
       &:hover {
         background-color: #040586;
         color: gold;
+      }
+    }
+
+    .previous, .next {
+      width: 30%;
+    }
+
+    .fast-previous, .fast-next {
+      width: 10%;
+
+      &:first-child {
+        border-radius: 5px 0 0 5px;
+        border-right: none;
+      }
+
+      &:last-child {
+        border-radius: 0 5px 5px 0;
+        border-left: none;
       }
     }
   }

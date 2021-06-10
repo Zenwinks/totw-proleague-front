@@ -24,7 +24,7 @@
         </div>
         <div class="add-btn">
           <span>Le joueur que tu veux ajouter n'existe pas ? Ajoutez-le !</span>
-          <button class="add" @click="pickPlayer = false"><i class="fas fa-plus-circle"/>&nbsp;Ajouter un joueur</button>
+          <button class="add" @click="getAllInfos()"><i class="fas fa-plus-circle"/>&nbsp;Ajouter un joueur</button>
         </div>
       </div>
       <div class="footer">
@@ -43,16 +43,22 @@
           </div>
           <div class="team">
             <label for="team">Équipe</label>
-            <input type="text" id="team" v-model="newPlayer.team">
+            <select name="team" id="team" v-model="newPlayer.team">
+              <option :value="team" v-for="team in teams" :key="team.id">{{ team.name }}</option>
+            </select>
           </div>
           <div class="country">
             <label for="country">Nationalité</label>
-            <input type="text" id="country" v-model="newPlayer.country">
+            <select name="country" id="country" v-model="newPlayer.country">
+              <option :value="country" v-for="country in countries" :key="country.id">{{ country.name }}</option>
+            </select>
           </div>
         </div>
       </div>
       <div class="footer">
-        <button class="cancel" @click="pickPlayer = true"><i class="fas fa-long-arrow-alt-left"/>&nbsp;Retour</button>
+        <button class="cancel" @click="pickPlayer = true;newPlayer = { name: '', team: {}, country: {} }">
+          <i class="fas fa-long-arrow-alt-left"/>&nbsp;Retour
+        </button>
         <button class="confirm" @click="addNewPlayer()"><i class="fas fa-plus-circle"/>&nbsp;Ajouter</button>
       </div>
     </div>
@@ -82,11 +88,13 @@ export default {
       newPositionIdSelected: '',
       newPlayer: {
         name: '',
-        team: '',
-        country: ''
+        team: {},
+        country: {}
       },
       players: [],
-      positions: []
+      positions: [],
+      teams: [],
+      countries: []
     }
   },
   created () {
@@ -130,34 +138,89 @@ export default {
             }
           })
     },
-    addNewPlayer () {
-      axios.post('http://localhost:3000/add-player', {
-        name: this.newPlayer.name,
-        team: this.newPlayer.team,
-        country: this.newPlayer.country
-      })
+    getAllInfos () {
+      axios.get('http://localhost:3000/teams')
           .then(response => {
-            this.pickPlayer = true
-            this.players = response.data
-            this.newPlayer = {
-              name: '',
-              team: '',
-              country: ''
-            }
+            this.teams = response.data
+            axios.get('http://localhost:3000/countries')
+                .then(response2 => {
+                  this.countries = response2.data
+                  this.pickPlayer = false;
+                })
+                .catch(error => {
+                  if (error.response.status === 401) {
+                    this.$logout()
+                  } else {
+                    createToast('Récupération des nationalités impossible', {
+                      type: 'danger',
+                      timeout: 3000,
+                      position: 'bottom-left',
+                      showIcon: true
+                    })
+                    console.log(error)
+                  }
+                })
           })
           .catch(error => {
-            console.log(error)
+            if (error.response.status === 401) {
+              this.$logout()
+            } else {
+              createToast('Récupération des équipes impossible', {
+                type: 'danger',
+                timeout: 3000,
+                position: 'bottom-left',
+                showIcon: true
+              })
+              console.log(error)
+            }
           })
+    },
+    addNewPlayer () {
+      if (this.newPlayer.name !== '' && this.newPlayer.team.id && this.newPlayer.country.id) {
+        axios.post('http://localhost:3000/add-player', {
+          name: this.newPlayer.name,
+          team: this.newPlayer.team,
+          country: this.newPlayer.country
+        })
+            .then(response => {
+              this.pickPlayer = true
+              this.players = response.data
+              this.newPlayer = {
+                name: '',
+                team: '',
+                country: ''
+              }
+              createToast('Nouveau joueur ajouté', {
+                type: 'success',
+                timeout: 2000,
+                position: 'bottom-left',
+                showIcon: true
+              })
+            })
+            .catch(error => {
+              createToast('Ajout du joueur impossible, vérifiez vos informations', {
+                type: 'danger',
+                timeout: 3000,
+                position: 'bottom-left',
+                showIcon: true
+              })
+              console.log(error)
+            })
+      } else {
+        createToast('Tous les champs sont obligatoires', {
+          type: 'warning',
+          timeout: 2000,
+          position: 'bottom-center',
+          showIcon: true
+        })
+      }
     },
     selectPlayer () {
       if (this.newPlayerIdSelected !== '') {
         let player = this.players.find(elem => elem.id === this.newPlayerIdSelected)
         if (this.newPositionIdSelected !== '') {
-          let position = this.positions.find(elem => elem.id === this.newPositionIdSelected)
-          this.$emit('playerPicked', {
-            player: player,
-            position: position
-          })
+          player.position = this.positions.find(elem => elem.id === this.newPositionIdSelected)
+          this.$emit('playerPicked', player)
           this.$emit('close')
         } else {
           createToast('Vous devez sélectionner un poste', {
@@ -306,12 +369,13 @@ export default {
         .name, .team, .country {
           display: flex;
           flex-direction: column;
+          width: 60%;
 
           label {
             font-size: small;
           }
 
-          input {
+          input, select {
             padding: 10px 10px;
             font-size: 1rem;
             border-width: 2px;
@@ -321,6 +385,10 @@ export default {
             outline: transparent;
             width: 90%;
             transition: border-color calc(0.2 * 1s) ease;
+          }
+
+          select {
+            width: 100%;
           }
         }
       }

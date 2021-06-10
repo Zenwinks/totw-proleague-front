@@ -22,6 +22,9 @@
         <div :class="[currentMenu === 'add' ? 'active' : '', 'menu']" @click="currentMenu = 'add'">
           Ajouter une nouvelle TOTW
         </div>
+        <div class="menu" @click="openClassement()">
+          Classement PL FR &nbsp;<i class="fas fa-external-link-alt"></i>
+        </div>
       </div>
       <hr>
       <div class="content">
@@ -68,6 +71,9 @@ export default {
     },
     profile () {
       this.$router.push('/profile')
+    },
+    openClassement () {
+      window.open('https://proleague.de/league.php?league=fra1#table', '_blank')
     }
   },
 }
@@ -145,6 +151,7 @@ export default {
         font-size: x-large;
         font-weight: bold;
         box-shadow: 0 0 10px #040586;
+        user-select: none;
 
         &:hover {
           background-color: #040586;
