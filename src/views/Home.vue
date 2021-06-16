@@ -4,10 +4,11 @@
       <img alt="Vue logo" src="../assets/logo.png">
       <h1>TOTW Manager</h1>
       <div class="icons">
-        <div class="profile" @click="profile">
+        <div class="profile" @click="$router.push('/profile')">
           <span v-if="currentUser">{{ currentUser.name }}</span>&nbsp;&nbsp;
           <i class="fas fa-user fa-lg"/>
         </div>
+        <i class="fas fa-cogs" @click="$router.push('/admin')" v-if="currentUser.isadmin"/>
         <i class="fas fa-power-off fa-lg" @click="logout"/>
       </div>
     </div>
@@ -68,9 +69,6 @@ export default {
   methods: {
     logout: function () {
       this.$logout()
-    },
-    profile () {
-      this.$router.push('/profile')
     },
     openClassement () {
       window.open('https://proleague.de/league.php?league=fra1#table', '_blank')
