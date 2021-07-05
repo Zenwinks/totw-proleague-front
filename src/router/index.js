@@ -2,7 +2,12 @@ import {createRouter, createWebHistory} from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from "../views/Auth/Login";
 import Profile from "../views/Profile";
-import Admin from "../views/Admin";
+import AdminHome from "../views/Admin/AdminHome";
+import AdminTeams from "../views/Admin/AdminTeams";
+import AdminCountries from "../views/Admin/AdminCountries";
+import AdminPlayers from "../views/Admin/AdminPlayers";
+import AdminPositions from "../views/Admin/AdminPositions";
+import AdminRouter from "../views/Admin/AdminRouter";
 // import Register from "../views/Auth/Register";
 
 const routes = [
@@ -40,11 +45,38 @@ const routes = [
   },
   {
     path: '/admin',
-    name: 'Admin',
-    component: Admin,
+    name: 'AdminRouter',
+    component: AdminRouter,
     meta: {
       requiresAuth: true
-    }
+    },
+    children: [
+      {
+        path: '',
+        name: 'AdminHome',
+        component: AdminHome,
+      },
+      {
+        path: 'teams',
+        name: 'AdminTeams',
+        component: AdminTeams,
+      },
+      {
+        path: 'countries',
+        name: 'AdminCountries',
+        component: AdminCountries,
+      },
+      {
+        path: 'players',
+        name: 'AdminPlayers',
+        component: AdminPlayers,
+      },
+      {
+        path: 'positions',
+        name: 'AdminPositions',
+        component: AdminPositions,
+      },
+    ]
   },
 ]
 

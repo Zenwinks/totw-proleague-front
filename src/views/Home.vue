@@ -12,7 +12,7 @@
           Ajouter une nouvelle TOTW
         </div>
         <div class="menu" @click="openClassement()">
-          Classement PL FR &nbsp;<i class="fas fa-external-link-alt"></i>
+          Classement PL FR &nbsp;<i class="fas fa-external-link-alt"/>
         </div>
       </div>
       <hr>
