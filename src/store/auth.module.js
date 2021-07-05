@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const user = JSON.parse(localStorage.getItem('data')).user;
+var user = {}
+if (JSON.parse(localStorage.getItem('data'))) {
+  user = JSON.parse(localStorage.getItem('data')).user;
+}
 const initialState = user
   ? {status: {loggedIn: true}, user}
   : {status: {loggedIn: false}, user: null};

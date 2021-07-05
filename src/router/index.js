@@ -1,6 +1,8 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from "../views/Auth/Login";
+import Profile from "../views/Profile";
+import Admin from "../views/Admin";
 // import Register from "../views/Auth/Register";
 
 const routes = [
@@ -28,6 +30,22 @@ const routes = [
   //     guest: true
   //   }
   // },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin,
+    meta: {
+      requiresAuth: true
+    }
+  },
 ]
 
 const router = createRouter({
