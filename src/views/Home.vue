@@ -5,10 +5,10 @@
       <h1>TOTW Manager</h1>
       <div class="icons">
         <div class="profile" @click="$router.push('/profile')">
-          <span v-if="currentUser">{{ currentUser.name }}</span>&nbsp;&nbsp;
+          <span>{{ currentUser.name }}</span>&nbsp;&nbsp;
           <i class="fas fa-user fa-lg"/>
         </div>
-        <i class="fas fa-cogs" @click="$router.push('/admin')" v-if="currentUser.isadmin"/>
+        <i class="fas fa-cogs fa-lg" @click="$router.push('/admin')" v-if="currentUser.isAdmin"/>
         <i class="fas fa-power-off fa-lg" @click="logout"/>
       </div>
     </div>
@@ -53,7 +53,7 @@ export default {
   components: {AddTotw, TotwList, PlayerStats},
   computed: {
     currentUser: function () {
-      return this.$store.getters.currentUser
+      return this.$store.getters.currentUser || JSON.parse(localStorage.getItem('data')).user
     }
   },
   created () {

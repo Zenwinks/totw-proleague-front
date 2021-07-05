@@ -5,7 +5,8 @@ export default createStore({
   state: {
     status: '',
     token: localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')).token : '',
-    user: localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')).user : {}
+    user: localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')).user : {},
+    userLoaded: false
   },
   getters: {
     isLoggedIn: state => !!state.token,
@@ -28,6 +29,9 @@ export default createStore({
       state.status = ''
       state.token = ''
     },
+    loadUser (state) {
+      state.userLoaded = true
+    },
   },
   actions: {
     login ({commit}, user) {
@@ -40,6 +44,7 @@ export default createStore({
             localStorage.setItem('data', JSON.stringify({user: user, token: token}))
             axios.defaults.headers.common['Authorization'] = token
             commit('auth_success', token, user)
+            commit('loadUser')
             resolve(resp)
           })
           .catch(err => {
