@@ -1,14 +1,18 @@
 <template>
   <div class="home">
     <div class="navbar">
-      <img alt="Vue logo" src="../assets/logo.png">
-      <h1>TOTW Manager</h1>
+      <div class="logo">
+        <img alt="Vue logo" src="../assets/logo.png">
+      </div>
+      <div class="title">
+        <h1>TOTW Manager</h1>
+      </div>
       <div class="icons">
-        <div class="profile" @click="$router.push('/profile')">
+        <div class="profile" @click="$router.push('/profile')" v-if="currentUser">
           <span>{{ currentUser.name }}</span>&nbsp;&nbsp;
           <i class="fas fa-user fa-lg"/>
         </div>
-        <i class="fas fa-cogs fa-lg" @click="$router.push('/admin')" v-if="currentUser.isAdmin"/>
+        <i class="fas fa-cogs fa-lg admin" @click="$router.push('/admin')" v-if="currentUser.isAdmin"/>
         <i class="fas fa-power-off fa-lg" @click="logout"/>
       </div>
     </div>
@@ -53,7 +57,7 @@ export default {
   components: {AddTotw, TotwList, PlayerStats},
   computed: {
     currentUser: function () {
-      return this.$store.getters.currentUser || JSON.parse(localStorage.getItem('data')).user
+      return this.$store.state.auth.user
     }
   },
   created () {
@@ -87,22 +91,33 @@ export default {
   .navbar {
     height: 10%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 10px;
     background-color: #040586;
 
-    img {
+    .logo {
+      width: 33%;
       height: 100%;
+
+      img {
+        height: 100%;
+      }
     }
 
-    h1 {
-      font-size: 30px;
-      color: gold;
+    .title {
+      width: 33%;
+      display: flex;
+      justify-content: center;
+
+      h1 {
+        font-size: 30px;
+        color: gold;
+      }
     }
 
     .icons {
-      width: 8%;
+      width: 33%;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -112,6 +127,11 @@ export default {
         display: flex;
         align-items: center;
         justify-content: flex-end;
+        color: gold;
+        cursor: pointer;
+      }
+
+      .admin {
         color: gold;
         cursor: pointer;
       }

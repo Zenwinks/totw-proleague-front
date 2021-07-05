@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     getPlayers () {
-      axios.get('http://localhost:3000/players/' + this.totw.totw)
+      axios.get(process.env.VUE_APP_BACK + 'players/' + this.totw.totw)
           .then(response => {
             console.log(response)
             this.newTitus = response.data.titus

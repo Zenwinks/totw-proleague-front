@@ -105,7 +105,7 @@ export default {
   },
   methods: {
     getAllPlayers () {
-      axios.get('http://localhost:3000/players')
+      axios.get(process.env.VUE_APP_BACK + 'players')
           .then(response => this.players = response.data)
           .catch(error => {
             if (error.response.status === 401) {
@@ -122,7 +122,7 @@ export default {
           })
     },
     getAllPositions () {
-      axios.get('http://localhost:3000/positions')
+      axios.get(process.env.VUE_APP_BACK + 'positions')
           .then(response => this.positions = response.data)
           .catch(error => {
             if (error.response.status === 401) {
@@ -139,10 +139,10 @@ export default {
           })
     },
     getAllInfos () {
-      axios.get('http://localhost:3000/teams')
+      axios.get(process.env.VUE_APP_BACK + 'teams')
           .then(response => {
             this.teams = response.data
-            axios.get('http://localhost:3000/countries')
+            axios.get(process.env.VUE_APP_BACK + 'countries')
                 .then(response2 => {
                   this.countries = response2.data
                   this.pickPlayer = false;
@@ -177,7 +177,7 @@ export default {
     },
     addNewPlayer () {
       if (this.newPlayer.name !== '' && this.newPlayer.team.id && this.newPlayer.country.id) {
-        axios.post('http://localhost:3000/add-player', {
+        axios.post(process.env.VUE_APP_BACK + 'add-player', {
           name: this.newPlayer.name,
           team: this.newPlayer.team,
           country: this.newPlayer.country

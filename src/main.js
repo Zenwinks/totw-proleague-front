@@ -9,7 +9,7 @@ app.use(store)
 app.use(router)
 app.mount('#app')
 app.config.globalProperties.$logout = function () {
-  this.$store.dispatch('logout')
+  this.$store.dispatch('auth/logout')
     .then(() => {
       this.$router.push('/login')
     })

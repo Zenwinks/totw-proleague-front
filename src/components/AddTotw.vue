@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     getTotwCount () {
-      axios.get('http://localhost:3000/totw-count')
+      axios.get(process.env.VUE_APP_BACK + 'totw-count')
           .then(response => this.totwCount = parseInt(response.data))
           .catch(error => {
             if (error.response.status === 401) {
@@ -69,7 +69,7 @@ export default {
           })
     },
     addTotw () {
-      axios.post('http://localhost:3000/add-totw', {
+      axios.post(process.env.VUE_APP_BACK + 'add-totw', {
         titus: this.titus,
         subs: this.subs,
         totwCount: this.totwCount
@@ -131,7 +131,7 @@ export default {
       }
     },
     // getAllFormations () {
-    //   axios.get('http://localhost:3000/formations')
+    //   axios.get(process.env.VUE_APP_BACK + 'formations')
     //       .then(response => {
     //         this.compos = response.data
     //       })

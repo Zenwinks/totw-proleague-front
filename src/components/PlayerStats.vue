@@ -165,7 +165,7 @@ export default {
   },
   methods: {
     updatePlayersData () {
-      axios.get('http://localhost:3000/playersWithPositions')
+      axios.get(process.env.VUE_APP_BACK + 'playersWithPositions')
           .then(response => {
             response.data.forEach(elem => {
               elem.noteTitu = this.calcNextNote(true, elem.nb_titu, elem.nb_sub, elem.nb_potw)

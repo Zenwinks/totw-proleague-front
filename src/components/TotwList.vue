@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     getTotws () {
-      axios.get('http://localhost:3000/totws')
+      axios.get(process.env.VUE_APP_BACK + 'totws')
           .then(response => {
             this.totws = response.data
           })

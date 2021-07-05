@@ -46,7 +46,7 @@ export default {
         password: this.password,
         isAdmin: this.isAdmin
       }
-      this.$store.dispatch('register', data)
+      this.$store.dispatch('auth/register', data)
           .then(() => this.$router.push('/'))
           .catch(err => console.log(err))
     }
