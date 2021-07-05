@@ -119,7 +119,7 @@ export default {
     .icons {
       width: 33%;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
 
       .profile {
@@ -134,11 +134,13 @@ export default {
       .admin {
         color: gold;
         cursor: pointer;
+        margin-left: 10px;
       }
 
       .fa-power-off {
         color: red;
         cursor: pointer;
+        margin-left: 10px;
       }
     }
   }
