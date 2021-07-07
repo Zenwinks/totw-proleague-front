@@ -32,44 +32,18 @@
         <button class="confirm" @click="selectPlayer()"><i class="fas fa-check-circle"/>&nbsp;Confirmer</button>
       </div>
     </div>
-    <!--    POPUP DE CRÉATION DE JOUEUR-->
-    <div class="popup-add" v-else>
-      <div class="header">Ajouter un nouveau joueur</div>
-      <div class="body">
-        <div class="form">
-          <div class="name">
-            <label for="name">Pseudo</label>
-            <input type="text" id="name" v-model="newPlayer.name">
-          </div>
-          <div class="team">
-            <label for="team">Équipe</label>
-            <select name="team" id="team" v-model="newPlayer.team">
-              <option :value="team" v-for="team in teams" :key="team.id">{{ team.name }}</option>
-            </select>
-          </div>
-          <div class="country">
-            <label for="country">Nationalité</label>
-            <select name="country" id="country" v-model="newPlayer.country">
-              <option :value="country" v-for="country in countries" :key="country.id">{{ country.name }}</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="footer">
-        <button class="cancel" @click="pickPlayer = true;newPlayer = { name: '', team: {}, country: {} }">
-          <i class="fas fa-long-arrow-alt-left"/>&nbsp;Retour
-        </button>
-        <button class="confirm" @click="addNewPlayer()"><i class="fas fa-plus-circle"/>&nbsp;Ajouter</button>
-      </div>
-    </div>
+    <add-player v-else :teams="teams" :countries="countries"
+                @addNewPlayer="addNewPlayer($event)" @cancel="pickPlayer = true"/>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import {createToast} from "mosha-vue-toastify";
+import AddPlayer from "./AddPlayerPopup";
 
 export default {
+  components: {AddPlayer},
   props: {
     playerSelected: {
       type: Object,
@@ -86,11 +60,6 @@ export default {
       pickPlayer: true,
       newPlayerIdSelected: '',
       newPositionIdSelected: '',
-      newPlayer: {
-        name: '',
-        team: {},
-        country: {}
-      },
       players: [],
       positions: [],
       teams: [],
@@ -175,21 +144,16 @@ export default {
             }
           })
     },
-    addNewPlayer () {
-      if (this.newPlayer.name !== '' && this.newPlayer.team.id && this.newPlayer.country.id) {
+    addNewPlayer (newPlayer) {
+      if (newPlayer.name !== '' && newPlayer.team.id && newPlayer.country.id) {
         axios.post(process.env.VUE_APP_BACK + 'add-player', {
-          name: this.newPlayer.name,
-          team: this.newPlayer.team,
-          country: this.newPlayer.country
+          name: newPlayer.name,
+          team: newPlayer.team,
+          country: newPlayer.country
         })
             .then(response => {
               this.pickPlayer = true
               this.players = response.data
-              this.newPlayer = {
-                name: '',
-                team: '',
-                country: ''
-              }
               createToast('Nouveau joueur ajouté', {
                 type: 'success',
                 timeout: 2000,

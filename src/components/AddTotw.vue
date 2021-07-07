@@ -25,7 +25,7 @@ import axios from "axios";
 import ChoosePlayers from "./AddTotw/ChoosePlayers";
 import RecapTotw from "./AddTotw/RecapTotw";
 import {createToast} from "mosha-vue-toastify";
-import PotwPopup from "./AddTotw/PotwPopup";
+import PotwPopup from "./Popup/PotwPopup";
 
 export default {
   name: "AddTotw",

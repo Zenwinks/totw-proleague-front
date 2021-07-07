@@ -48,7 +48,8 @@ const routes = [
     name: 'AdminRouter',
     component: AdminRouter,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      isAdmin: true
     },
     children: [
       {
@@ -95,7 +96,7 @@ router.beforeEach((to, from, next) => {
     } else {
       let data = JSON.parse(localStorage.getItem('data'))
       if (to.matched.some(record => record.meta.isAdmin)) {
-        if (data.user.isAdmin === 1) {
+        if (data.user.isAdmin) {
           next()
         } else {
           next({name: 'Home'})
@@ -108,7 +109,7 @@ router.beforeEach((to, from, next) => {
     if (localStorage.getItem('data') == null) {
       next()
     } else {
-      next({name: 'Home'})
+      next({name: 'Login'})
     }
   } else {
     next()

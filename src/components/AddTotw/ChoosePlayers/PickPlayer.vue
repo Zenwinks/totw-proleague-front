@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import SelectPlayerPopup from "./SelectPlayerPopup";
+import SelectPlayerPopup from "../../Popup/SelectPlayerPopup";
 
 export default {
   components: {SelectPlayerPopup},

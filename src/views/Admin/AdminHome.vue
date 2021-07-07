@@ -49,6 +49,10 @@ export default {
     justify-content: center;
     font-weight: bold;
     border-radius: 10px;
+
+    &:hover {
+      background-color: gray;
+    }
   }
 
   .menus {
