@@ -218,7 +218,7 @@ export default {
 
     table {
       width: 55%;
-      height: 70%;
+      height: 85%;
       border-collapse: collapse;
       text-align: center;
 

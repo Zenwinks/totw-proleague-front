@@ -1,7 +1,7 @@
 <template>
-  <div class="wrapper">
-    <!--    POPUP DE SÉLECTION DE JOUEUR-->
-    <div class="popup" v-if="pickPlayer">
+  <!--    POPUP DE SÉLECTION DE JOUEUR-->
+  <div class="wrapper" v-if="pickPlayer">
+    <div class="popup">
       <div class="header">Sélectionner un joueur</div>
       <i class="fas fa-times close" @click="$emit('close')"/>
       <div class="body">
@@ -32,9 +32,9 @@
         <button class="confirm" @click="selectPlayer()"><i class="fas fa-check-circle"/>&nbsp;Confirmer</button>
       </div>
     </div>
-    <add-player v-else :teams="teams" :countries="countries"
-                @addNewPlayer="addNewPlayer($event)" @cancel="pickPlayer = true"/>
   </div>
+  <add-player v-else :teams="teams" :countries="countries"
+              @addNewPlayer="addNewPlayer($event)" @cancel="pickPlayer = true"/>
 </template>
 
 <script>
@@ -146,7 +146,7 @@ export default {
     },
     addNewPlayer (newPlayer) {
       if (newPlayer.name !== '' && newPlayer.team.id && newPlayer.country.id) {
-        axios.post(process.env.VUE_APP_BACK + 'add-player', {
+        axios.post(process.env.VUE_APP_BACK + 'players', {
           name: newPlayer.name,
           team: newPlayer.team,
           country: newPlayer.country
