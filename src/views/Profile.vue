@@ -21,6 +21,7 @@
 <script>
 import StandardLayout from "../layouts/StandardLayout";
 import axios from "axios";
+import {createToast} from "mosha-vue-toastify";
 
 export default {
   name: "Profile",
@@ -42,12 +43,17 @@ export default {
     getTeam () {
       axios.get(process.env.VUE_APP_BACK + "getTeamByUserName/" + this.currentUser.name)
           .then(result => {
-            if(result.data.name) {
+            if (result.data.name) {
               this.team = result.data.name
             }
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast('Une erreur est survenue à la récupération de votre équipe', {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     }
   }

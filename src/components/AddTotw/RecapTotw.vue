@@ -74,8 +74,7 @@ export default {
             this.newTitus = response.data.titus
             this.newSubs = response.data.subs
           })
-          .catch(e => {
-            console.log(e)
+          .catch(() => {
             createToast('Récupération des joueurs impossible', {
               type: 'danger',
               timeout: 3000,

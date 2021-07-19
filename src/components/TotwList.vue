@@ -38,8 +38,7 @@ export default {
           .then(response => {
             this.totws = response.data
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
             createToast('Un erreur est survenue à la récupération des TOTW', {
               type: 'danger',
               timeout: 3000,
