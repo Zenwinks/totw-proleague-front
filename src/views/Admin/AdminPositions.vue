@@ -50,6 +50,7 @@
 import AdminLayout from "../../layouts/AdminLayout";
 import axios from "axios";
 import AddPositionPopup from "../../components/Popup/AddPositionPopup";
+import {createToast} from "mosha-vue-toastify";
 
 export default {
   name: "AdminPositions",
@@ -105,8 +106,13 @@ export default {
             this.positions = response.data
             this.maxPage = Math.ceil(this.positions.length / this.pageSize)
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast("Une erreur est survenue à la récupération des postes", {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     createPosition (newPosition) {
@@ -115,28 +121,60 @@ export default {
             this.showAddPopup = false
             this.positions = response.data
             this.maxPage = Math.ceil(this.positions.length / this.pageSize)
+            createToast("Poste ajouté avec succès", {
+              type: 'success',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast("Une erreur est survenue à l'ajout du poste", {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     updatePosition (position) {
       axios.patch(process.env.VUE_APP_BACK + "positions/" + position.id, position)
           .then(() => {
             this.editMode = "0"
-            console.log("Poste mis à jour.")
+            createToast("Poste mis à jour avec succès", {
+              type: 'success',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast("Une erreur est survenue à la mise à jour du poste", {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     deletePosition (position) {
       axios.delete(process.env.VUE_APP_BACK + "positions/" + position.id)
           .then(() => {
             this.positions.splice(this.positions.indexOf(position), 1)
+            createToast("Poste supprimé avec succès", {
+              type: 'success',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast("Une erreur est survenue à la suppression du poste", {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     sort (s) {

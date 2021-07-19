@@ -50,6 +50,7 @@
 import AdminLayout from "../../layouts/AdminLayout";
 import axios from "axios";
 import AddCountryPopup from "../../components/Popup/AddCountryPopup";
+import {createToast} from "mosha-vue-toastify";
 
 export default {
   name: "AdminCountries",
@@ -105,8 +106,13 @@ export default {
             this.countries = response.data
             this.maxPage = Math.ceil(this.countries.length / this.pageSize)
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast('Une erreur est survenue à la récupération des pays', {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     createCountry (newCountry) {
@@ -115,28 +121,60 @@ export default {
             this.showAddPopup = false
             this.countries = response.data
             this.maxPage = Math.ceil(this.countries.length / this.pageSize)
+            createToast("Nationalité ajoutée avec succès", {
+              type: 'success',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast('Une erreur est survenue à l\'ajout d\'une nationalité', {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     updateCountry (country) {
       axios.patch(process.env.VUE_APP_BACK + "countries/" + country.id, country)
           .then(() => {
             this.editMode = "0"
-            console.log("Équipe mise à jour.")
+            createToast("Nationalité mise à jour avec succès", {
+              type: 'success',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast('Une erreur est survenue à la mise à jour d\'une nationalité', {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     deleteCountry (country) {
       axios.delete(process.env.VUE_APP_BACK + "countries/" + country.id)
           .then(() => {
             this.countries.splice(this.countries.indexOf(country), 1)
+            createToast("Nationalité supprimée avec succès", {
+              type: 'success',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast("Une erreur est survenue à la suppression d'une nationalité", {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     sort (s) {

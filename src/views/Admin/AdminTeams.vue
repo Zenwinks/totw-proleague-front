@@ -50,6 +50,7 @@
 import AdminLayout from "../../layouts/AdminLayout";
 import axios from "axios";
 import AddTeamPopup from "../../components/Popup/AddTeamPopup";
+import {createToast} from "mosha-vue-toastify";
 
 export default {
   name: "AdminTeams",
@@ -105,8 +106,13 @@ export default {
             this.teams = response.data
             this.maxPage = Math.ceil(this.teams.length / this.pageSize)
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast("Une erreur est survenue à la récupération des équipes", {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     createTeam (newTeam) {
@@ -115,28 +121,60 @@ export default {
             this.showAddPopup = false
             this.teams = response.data
             this.maxPage = Math.ceil(this.teams.length / this.pageSize)
+            createToast("Équipe ajoutée avec succès", {
+              type: 'success',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast("Une erreur est survenue à la création d'une équipe", {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     updateTeam (team) {
       axios.patch(process.env.VUE_APP_BACK + "teams/" + team.id, team)
           .then(() => {
             this.editMode = "0"
-            console.log("Équipe mise à jour.")
+            createToast("Équipe mise à jour avec succès", {
+              type: 'success',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast("Une erreur est survenue à la mise à jour de l'équipe", {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     deleteTeam (team) {
       axios.delete(process.env.VUE_APP_BACK + "teams/" + team.id)
           .then(() => {
             this.teams.splice(this.teams.indexOf(team), 1)
+            createToast("Équipe supprimée avec succès", {
+              type: 'success',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast("Une erreur est survenue à la suppression de l'équipe", {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     sort (s) {
@@ -156,7 +194,7 @@ export default {
     },
     fastPrevPage () {
       this.currentPage = 1
-    },
+    }
   }
 }
 </script>

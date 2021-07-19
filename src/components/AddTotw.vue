@@ -64,7 +64,6 @@ export default {
                 position: 'bottom-left',
                 showIcon: true
               })
-              console.log(error)
             }
           })
     },
@@ -83,14 +82,13 @@ export default {
             })
             this.$emit('goToStats')
           })
-          .catch(error => {
+          .catch(() => {
             createToast('Une erreur est survenue à la création de la TOTW', {
               type: 'danger',
               timeout: 3000,
               position: 'bottom-left',
               showIcon: true
             })
-            console.log(error)
           })
     },
     addPotwPlayer (potwId) {
@@ -129,26 +127,7 @@ export default {
       } else if (!this.potwChosen) {
         this.showPotwPopup = true
       }
-    },
-    // getAllFormations () {
-    //   axios.get(process.env.VUE_APP_BACK + 'formations')
-    //       .then(response => {
-    //         this.compos = response.data
-    //       })
-    //       .catch(error => {
-    //         if (error.response.status === 401) {
-    //           this.$logout()
-    //         } else {
-    //           createToast('Récupération des formations impossible', {
-    //             type: 'danger',
-    //             timeout: 3000,
-    //             position: 'bottom-left',
-    //             showIcon: true
-    //           })
-    //           console.log(error)
-    //         }
-    //       })
-    // },
+    }
   }
 }
 </script>

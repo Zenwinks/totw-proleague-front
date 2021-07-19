@@ -74,6 +74,7 @@
 import AdminLayout from "../../layouts/AdminLayout";
 import AddPlayerPopup from "../../components/Popup/AddPlayerPopup";
 import axios from "axios";
+import {createToast} from "mosha-vue-toastify";
 
 export default {
   name: "AdminPlayers",
@@ -133,8 +134,13 @@ export default {
             this.players = response.data
             this.maxPage = Math.ceil(this.players.length / this.pageSize)
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast("Une erreur est survenue à la récupération des joueurs", {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     getTeams () {
@@ -143,8 +149,13 @@ export default {
             this.teams = response.data
             this.maxPage = Math.ceil(this.teams.length / this.pageSize)
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast("Une erreur est survenue à la récupération des équipes", {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     getCountries () {
@@ -153,8 +164,13 @@ export default {
             this.countries = response.data
             this.maxPage = Math.ceil(this.countries.length / this.pageSize)
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast("Une erreur est survenue à la récupération d'une nationalité", {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     createPlayer (newPlayer) {
@@ -168,9 +184,20 @@ export default {
             this.showAddPopup = false
             this.players = response.data
             this.maxPage = Math.ceil(this.players.length / this.pageSize)
+            createToast("Joueur ajouté avec succès", {
+              type: 'success',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast("Une erreur est survenue à l'ajout du joueur", {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     updatePlayer (player) {
@@ -184,19 +211,40 @@ export default {
       })
           .then(() => {
             this.editMode = "0"
-            console.log("Équipe mise à jour.")
+            createToast("Joueur mis à jour avec succès", {
+              type: 'success',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast("Une erreur est survenue à la mise à jour du joueur", {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     deletePlayer (player) {
       axios.delete(process.env.VUE_APP_BACK + "players/" + player.id)
           .then(() => {
             this.players.splice(this.players.indexOf(player), 1)
+            createToast("Joueur supprimé avec succès", {
+              type: 'success',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
-          .catch(error => {
-            console.log(error)
+          .catch(() => {
+            createToast("Une erreur est survenue à la suppression d'un joueur", {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     },
     getTeamByName (team) {

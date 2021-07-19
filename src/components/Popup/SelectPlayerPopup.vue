@@ -86,7 +86,6 @@ export default {
                 position: 'bottom-left',
                 showIcon: true
               })
-              console.log(error)
             }
           })
     },
@@ -103,7 +102,6 @@ export default {
                 position: 'bottom-left',
                 showIcon: true
               })
-              console.log(error)
             }
           })
     },
@@ -126,7 +124,6 @@ export default {
                       position: 'bottom-left',
                       showIcon: true
                     })
-                    console.log(error)
                   }
                 })
           })
@@ -140,7 +137,6 @@ export default {
                 position: 'bottom-left',
                 showIcon: true
               })
-              console.log(error)
             }
           })
     },
@@ -161,14 +157,13 @@ export default {
                 showIcon: true
               })
             })
-            .catch(error => {
+            .catch(() => {
               createToast('Ajout du joueur impossible, vérifiez vos informations', {
                 type: 'danger',
                 timeout: 3000,
                 position: 'bottom-left',
                 showIcon: true
               })
-              console.log(error)
             })
       } else {
         createToast('Tous les champs sont obligatoires', {

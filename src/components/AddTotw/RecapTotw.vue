@@ -38,6 +38,7 @@
 
 <script>
 import axios from "axios";
+import {createToast} from "mosha-vue-toastify";
 
 export default {
   props: {
@@ -70,12 +71,17 @@ export default {
     getPlayers () {
       axios.get(process.env.VUE_APP_BACK + 'players/' + this.totw.totw)
           .then(response => {
-            console.log(response)
             this.newTitus = response.data.titus
             this.newSubs = response.data.subs
           })
           .catch(e => {
             console.log(e)
+            createToast('Récupération des joueurs impossible', {
+              type: 'danger',
+              timeout: 3000,
+              position: 'bottom-left',
+              showIcon: true
+            })
           })
     }
   }
