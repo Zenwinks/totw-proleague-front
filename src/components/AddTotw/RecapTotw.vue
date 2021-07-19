@@ -1,9 +1,9 @@
 <template>
   <div class="sub-wrapper">
-    <div class="back" v-if="totw.totw">
+    <div class="back" v-if="totw">
       <button @click="$emit('goBack')"><i class="fas fa-long-arrow-alt-left"/>&nbsp;Retour</button>
     </div>
-    <div :class="[totw.totw ? 'from-totw-list' : 'content']">
+    <div :class="[totw ? 'from-totw-list' : 'content']">
       <div class="titus" v-if="newTitus.length > 0">
         <div class="title">Titulaires</div>
         <div class="titu-players">
@@ -59,7 +59,7 @@ export default {
     }
   },
   created () {
-    if (this.totw.totw) {
+    if (this.totw) {
       this.getPlayers()
     } else {
       this.newTitus = this.titus

@@ -4,9 +4,9 @@
       <div class="header">Ajouter une nouvelle nationalité</div>
       <div class="body">
         <div class="form">
-          <div class="name">
-            <label for="name">Nom</label>
-            <input type="text" id="name" v-model="newCountry">
+          <div class="label">
+            <label for="label">Label</label>
+            <input type="text" id="label" v-model="newPosition">
           </div>
         </div>
       </div>
@@ -14,7 +14,7 @@
         <button class="cancel" @click="cancel()">
           <i class="fas fa-long-arrow-alt-left"/>&nbsp;Retour
         </button>
-        <button class="confirm" @click="addNewCountry()"><i class="fas fa-plus-circle"/>&nbsp;Ajouter</button>
+        <button class="confirm" @click="addNewPosition()"><i class="fas fa-plus-circle"/>&nbsp;Ajouter</button>
       </div>
     </div>
   </div>
@@ -22,19 +22,19 @@
 
 <script>
 export default {
-  name: "AddCountryPopup",
+  name: "AddPositionPopup",
   data () {
     return {
-      newCountry: ""
+      newPosition: ""
     }
   },
   methods: {
-    addNewCountry () {
-      this.$emit('addNewCountry', this.newCountry)
-      this.newCountry = ""
+    addNewPosition () {
+      this.$emit('addNewPosition', this.newPosition)
+      this.newPosition = ""
     },
     cancel () {
-      this.newCountry = ""
+      this.newPosition = ""
       this.$emit('cancel')
     }
   }
@@ -86,7 +86,7 @@ export default {
         align-items: center;
         justify-content: space-evenly;
 
-        .name {
+        .label {
           display: flex;
           flex-direction: column;
           width: 60%;

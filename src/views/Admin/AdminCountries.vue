@@ -23,7 +23,7 @@
           <tbody>
           <tr v-for="country in sortedCountries" :key="country.id">
             <td class="id">{{ country.id }}</td>
-            <td class="name" v-if="editMode === country.id"><input type="text" v-model="country.name"></td>
+            <td class="name editable" v-if="editMode === country.id"><input type="text" v-model="country.name" autofocus></td>
             <td class="name" v-else><b>{{ country.name }}</b></td>
             <td class="actions">
               <i class="fas fa-save save" v-if="editMode === country.id" @click="updateCountry(country)"/>
