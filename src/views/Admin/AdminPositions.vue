@@ -99,6 +99,13 @@ export default {
       });
     }
   },
+  watch: {
+    maxPage() {
+      if(this.maxPage === 0) {
+        this.currentPage = 0
+      }
+    }
+  },
   methods: {
     getPositions () {
       axios.get(process.env.VUE_APP_BACK + "positions")
@@ -218,6 +225,7 @@ export default {
     justify-content: center;
     font-weight: bold;
     border-radius: 10px;
+    text-align: center;
   }
 
   .add-position {

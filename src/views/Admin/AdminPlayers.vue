@@ -1,7 +1,7 @@
 <template>
   <admin-layout>
     <div class="container">
-      <div class="go-back" @click="$router.push('/admin')"><i class="fas fa-long-arrow-alt-left"/>&nbsp;Quitter l'administration</div>
+      <div class="go-back" @click="$router.push('/admin')"><i class="fas fa-long-arrow-alt-left"/>&nbsp;Retour</div>
       <div class="add-player">
         <span>{{ players.length }} joueur(s) enregistré(s).</span>
         <button class="add-btn" @click="showAddPopup = true"><i class="fas fa-plus-circle"/>&nbsp;Ajouter un joueur</button>
@@ -125,6 +125,13 @@ export default {
         let end = this.currentPage * this.pageSize;
         if (index >= start && index < end) return true;
       });
+    }
+  },
+  watch: {
+    maxPage() {
+      if(this.maxPage === 0) {
+        this.currentPage = 0
+      }
     }
   },
   methods: {
@@ -294,6 +301,7 @@ export default {
     justify-content: center;
     font-weight: bold;
     border-radius: 10px;
+    text-align: center;
   }
 
   .add-player {

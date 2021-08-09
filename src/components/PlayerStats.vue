@@ -160,6 +160,13 @@ export default {
       });
     }
   },
+  watch: {
+    maxPage() {
+      if(this.maxPage === 0) {
+        this.currentPage = 0
+      }
+    }
+  },
   mounted () {
     this.updatePlayersData()
   },

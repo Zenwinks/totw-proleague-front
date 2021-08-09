@@ -76,6 +76,7 @@ export default {
       font-weight: bold;
       box-shadow: 0 0 10px #040586;
       user-select: none;
+      text-align: center;
 
       &:hover {
         background-color: #040586;
